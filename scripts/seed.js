@@ -7,6 +7,8 @@ const {
 } = require('../app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
 
+
+// ! populate the postgres database with some initial data in `../app/lib/placeholder-data.js`
 async function seedUsers(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
