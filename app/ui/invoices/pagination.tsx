@@ -5,22 +5,41 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { generatePagination } from '@/app/lib/utils';
 
+import { usePathname, useSearchParams } from 'next/navigation';
+
 export default function Pagination({ totalPages }: { totalPages: number }) {
+  // hooks ----------------------------------------------
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get('page')) || 1;
+
+
+  // handlers ----------------------------------------------
+  const createPageURL = (pageNumber: number | string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', pageNumber.toString());
+    return `${pathname}?${params.toString()}`;    // construct the url with the new query params
+  };
+
   // NOTE: comment in this code when you get to this point in the course
 
-  // const allPages = generatePagination(currentPage, totalPages);
+  const allPages = generatePagination(currentPage, totalPages);   // generate an array container the string or number that will be shown as pagination numbers
 
+
+  // jsx ----------------------------------------------
   return (
     <>
       {/* NOTE: comment in this code when you get to this point in the course */}
 
-      {/* <div className="inline-flex">
+      <div className="inline-flex">
+        {/*  left arrow */}
         <PaginationArrow
           direction="left"
           href={createPageURL(currentPage - 1)}
           isDisabled={currentPage <= 1}
         />
 
+        {/* pages between the arrows */}
         <div className="flex -space-x-px">
           {allPages.map((page, index) => {
             let position: 'first' | 'last' | 'single' | 'middle' | undefined;
@@ -42,12 +61,13 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
           })}
         </div>
 
+          {/* right arrow */}
         <PaginationArrow
           direction="right"
           href={createPageURL(currentPage + 1)}
           isDisabled={currentPage >= totalPages}
         />
-      </div> */}
+      </div>
     </>
   );
 }
@@ -92,6 +112,8 @@ function PaginationArrow({
   direction: 'left' | 'right';
   isDisabled?: boolean;
 }) {
+
+  // conditional styling
   const className = clsx(
     'flex h-10 w-10 items-center justify-center rounded-md border',
     {
@@ -109,6 +131,7 @@ function PaginationArrow({
       <ArrowRightIcon className="w-4" />
     );
 
+    // jsx ----------------------------------------------
   return isDisabled ? (
     <div className={className}>{icon}</div>
   ) : (
