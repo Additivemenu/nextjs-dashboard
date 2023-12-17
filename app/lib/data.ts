@@ -1,3 +1,5 @@
+// ! this file acts like backend API
+
 import { sql } from '@vercel/postgres';
 import {
   CustomerField,

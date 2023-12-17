@@ -32,7 +32,7 @@ export default async function Page({
         <CreateInvoice />
       </div>
 
-      {/* for displaying the search results */}
+      {/* for displaying the invoices search results => a table */}
        <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
       </Suspense>
